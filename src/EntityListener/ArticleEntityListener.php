@@ -1,28 +1,25 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\EntityListenerz;
 
+use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Article::class)]
 class ArticleEntityListener
-{   
-    //достаем пользователя
-    //в конструкторе передаем объект security и чтобы он был property, был доступен внутри класса
-    public function __construct(private readonly Security $security) 
+{
+    public function __construct(private readonly Security $security)
     {
     }
 
-
-    public function prePersist(prePersistEventArgs $event): void
+    public function prePersist(\App\Entity\Article $entity): void
     {
-        /** @var Article $entity */
-        $entity = $event->getObject();
-        //при сохранении entity добавляется дата создания, текущее время
-        $entity->setCreatedAt(new \DateTimeImmutable());
-        //хотим установить автора как security->getUser()
-        $entity->setAuthor($this->security->getUser());
+        $entity->setCreatedAt(new \DateTimeImmutable())
+            ->setAuthor($this->security->getUser());
     }
 }
