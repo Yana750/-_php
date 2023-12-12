@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\EntityListenerz;
+namespace App\EntityListener;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
