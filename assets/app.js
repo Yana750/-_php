@@ -10,5 +10,5 @@ import './styles/app.css';
 
 const $ = require('jquery');
 // this "modifies" the jquery module: adding behavior to it
-// the bootstrap module doesn't e[port/return anything
-require('bootstrap')
+// the bootstrap module doesn't export/return anything
+require('bootstrap');

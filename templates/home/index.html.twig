@@ -13,7 +13,7 @@
                 {{ item.body|raw|nl2br }}
             </div>
             <div>
-                Дата создания: {{ item.createdAt|date('d.m.Y H:i:s') }}
+                Дата создания: {{ item.createdAt|date('d.m.Y H:i:s') }}, Автор: {{ item.author }}
             </div>
         </article>
     {% endfor %}
