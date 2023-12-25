@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Psr\Log\LoggerInterface;
 
 #[AsCommand(
     name: 'app:test',
@@ -16,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class TestCommand extends Command
 {
-    public function __construct()
+    public function __construct(private readonly LoggerInterface $logger)
     {
         parent::__construct();
     }
@@ -43,6 +44,8 @@ class TestCommand extends Command
         }
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+
+        $this->logger->info('command has been executed');
 
         return Command::SUCCESS;
     }
