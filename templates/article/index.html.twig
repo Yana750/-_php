@@ -1,21 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index{% endblock %}
+{% block title %}Hello ArticleController!{% endblock %}
 
 {% block body %}
-    <div class="example-wrapper">
+    <h1>{{ article.title }}</h1>
+    <h3>Дата создания: {{ article.createdAt|date('d.m.Y H:i:s') }}, Автор: {{ article.author }}</h3>
+    <div class="article-content">
+        {{ article.body|raw|nl2br }}
+    </div>
 
-     <a href="{{ path('app_article_new') }}" class="btn btn-default">Создать статью</a>
-    {% for item in articles %}
-        <article>
-            <h2>{{ item.title }}</h2>
-            <div class="article-content">
-                {{ item.body }}
+    <div>
+        <h4>Комментарии</h4>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
             </div>
-            <div>
-                Дата создания: {{ item.createdAt|date('d.m.Y H:i:s') }}
+        {% endfor %}
+        {# Форма комментирования #}
+        {{ form_start(form, {attr: {"class": "d-inline"}}) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">{{ button_label|default('Save'|trans) }}</button>
+        {{ form_end(form) }}
+        {# Список комментариев, отсортированный по дате создания desc #}
+        {% for item in article.comments|filter(v => v.isViewableByUsers) %}
+            <div class="comment">
+                {{ item.comment }}, Автор: {{ item.displayAuthor }}, Дата: {{ item.createdAt|date('d.m.Y H:i:s') }}
             </div>
-        </article>
-    {% endfor %}
-</div>
+        {% else %}
+            <div>Комментариев пока нет</div>
+        {% endfor %}
+    </div>
 {% endblock %}

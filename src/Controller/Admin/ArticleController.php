@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/article')]
+#[Route('/admin-simple/article')]
 class ArticleController extends AbstractController
 {
     #[Route('/', name: 'app_article_index', methods: ['GET'])]
@@ -36,7 +36,7 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('article/new.html.twig', [
+        return $this->render('admin/article/new.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
-        return $this->render('article/show.html.twig', [
+        return $this->render('admin/article/show.html.twig', [
             'article' => $article,
         ]);
     }
@@ -62,7 +62,7 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('article/edit.html.twig', [
+        return $this->render('admin/article/edit.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);

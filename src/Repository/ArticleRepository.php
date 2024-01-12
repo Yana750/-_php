@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
-use App\Dto\Search;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,12 +22,10 @@ class ArticleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Article::class);
     }
-
-    public function getRecentArticles(int $count, string $search = null): \Doctrine\ORM\Query
+    public function getRecentArticles(int $count, ?string $search = null): \Doctrine\ORM\QueryBuilder
     {
-        $guery = $this->createQueryBuilder('q')
+        $query = $this->createQueryBuilder('q')
             ->orderBy('q.createdAt', 'desc')
-            ->getQuery()
             ->setMaxResults($count);
 
         if ($search) {
@@ -35,6 +33,6 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('search', '%'. $search . '%');
         }
 
-        return $query->getQuery();
+        return $query;
     }
 }
