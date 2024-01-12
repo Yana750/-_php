@@ -16,11 +16,11 @@ class ArticleService implements ArticleServiceInterface
     }
 //создали слой промежуточный между контроллером и слоем доступа данных
 //бизнес логика
-    public function getRecentArticles(int $count) 
+    public function getRecentArticles(int $count, ?string $search = null): \Doctrine\ORM\Query
     {
         $this->logger->info(sprintf('getting %d recent articles', $count));
         //здесь может быть кеш, здесь может быть математика
-        return $this->articleRepository->getRecentArticles($count);
+        return $this->articleRepository->getRecentArticles($count, $search);
     }
 }
 

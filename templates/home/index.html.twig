@@ -4,7 +4,9 @@
 
 {% block body %}
 <a href="{{ path('admin.index') }}">Администрирование</a>
-<div class="example-wrapper">
+    
+    {{ form(form) }}
+    
     {% for item in articles %}
         <article>
             <h2>{{ item.title }}</h2>

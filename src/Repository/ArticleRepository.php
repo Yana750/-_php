@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Dto\Search;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @extends ServiceEntityRepository<Article>
@@ -21,12 +23,18 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function getRecentArticles(int $count)
+    public function getRecentArticles(int $count, string $search = null): \Doctrine\ORM\Query
     {
-        return $this->createQueryBuilder('q')
+        $guery = $this->createQueryBuilder('q')
             ->orderBy('q.createdAt', 'desc')
             ->getQuery()
-            ->setMaxResults($count)
-            ->getResult();
+            ->setMaxResults($count);
+
+        if ($search) {
+            $query->andWhere('q.title like :search or q.body like :search')
+                ->setParameter('search', '%'. $search . '%');
+        }
+
+        return $query->getQuery();
     }
 }
